@@ -42,7 +42,7 @@ void printBigNumber(numerao *num) {
   printf("\nNúmero de dígitos: %d\n", num->n_dig);
   printf("Sinal: %c\n", num->sinal);
   printf("Número: ");
-  for(int i = 0; i < num->n_dig; i++) {
+  for(int i = num->n_dig - 1; i >= 0 ; i--) {
     printf("%c", num->dig[i]);
   }
   printf("\n");

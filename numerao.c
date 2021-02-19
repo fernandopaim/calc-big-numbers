@@ -46,7 +46,9 @@ bool numerao_de_str(numerao *num, char *str)
 
   num->dig = (char *) m_aloca(strlen(str) * sizeof(char));
 
-  strcpy(num->dig, str);
+  for(int i = num->n_dig - 1; i >= 0; i--) {
+    num->dig[num->n_dig - i - 1] = str[i];
+  }
 
   return true;
 }
@@ -55,7 +57,7 @@ void numerao_para_str(numerao *num, char *str)
 {
   str[0] = num->sinal;
   for(int i = 0; i < num->n_dig; i++) {
-    str[i+1] = num->dig[i];
+    str[i+1] = num->dig[num->n_dig - i - 1];
   }
   str[num->n_dig+1] = '\0';
 }
