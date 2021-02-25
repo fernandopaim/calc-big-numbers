@@ -200,21 +200,32 @@ void numerao_aux_subtrai(numerao *num, numerao *num2)
 
 void numerao_soma(numerao *a, numerao *b)
 {
-  numerao_aux_ndig(a, a->n_dig+2);
+  int maxDig = a->n_dig;
+  if (b->n_dig > a->n_dig)
+    maxDig = b->n_dig;
+
+  numerao_aux_ndig(a, maxDig+2);
   numerao b_aux;
   numerao_copia(b, &b_aux);
-  numerao_aux_ndig(&b_aux, b->n_dig+2);
+  numerao_aux_ndig(&b_aux, maxDig+2);
 
   numerao_aux_soma(a, &b_aux);
   numerao_canon(a);
-  numerao_libera_men(&b_aux, "numerao_soma", 210);
+  numerao_libera_men(&b_aux, "numerao_soma", 214);
 }
 
 void numerao_subtrai(numerao *a, numerao *b)
 {
+  int maxDig = a->n_dig;
+  if (b->n_dig > a->n_dig)
+    maxDig = b->n_dig;
+
+  numerao_aux_ndig(a, maxDig+2);
+  numerao b_aux;
+  numerao_copia(b, &b_aux);
+  numerao_aux_ndig(&b_aux, maxDig+2);
+
   if (numerao_compara(a, b) == -1) {
-    numerao b_aux;
-    numerao_copia(b, &b_aux);
     numerao_aux_subtrai(&b_aux, a);
     numerao_copia(&b_aux, a);
 
@@ -223,10 +234,21 @@ void numerao_subtrai(numerao *a, numerao *b)
       else a->sinal = '+';
     }
   } else {
-    numerao_aux_subtrai(a, b);
+    numerao_aux_subtrai(a, &b_aux);
   }
+
+  numerao_libera_men(&b_aux, "numerao_subtrai", 240);
+  numerao_canon(a);
 }
 
+void numerao_mult10(numerao *num) {
 
-// falta a Parte II
+}
 
+void numerao_multdig(numerao *num, char dig) {
+
+}
+
+void numerao_multiplica(numerao *n1, numerao *n2) {
+
+}

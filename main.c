@@ -14,18 +14,18 @@ void le_numerao(numerao *n) {
       continue;
     }
 
-    numerao_de_str(n, str);
-    printf("\nNúmero n");
-    printBigNumber(n);
-    numerao aux;
-    numerao_de_str(&aux, "1230");
-    numerao_aux_ndig(&aux, n->n_dig);
-    printf("\nNúmero m");
-    printBigNumber(&aux);
-    printf("->%d\n", numerao_compara(n, &aux));
-    numerao_subtrai(n, &aux);
-    printf("\nResultado operacao");
-    printBigNumber(n);
+    // numerao_de_str(n, str);
+    // printf("\nNúmero n");
+    // printBigNumber(n);
+    // numerao aux;
+    // numerao_de_str(&aux, "1230");
+    // numerao_aux_ndig(&aux, n->n_dig);
+    // printf("\nNúmero m");
+    // printBigNumber(&aux);
+    // printf("->%d\n", numerao_compara(n, &aux));
+    // numerao_subtrai(n, &aux);
+    // printf("\nResultado operacao");
+    // printBigNumber(n);
 
     if (numerao_de_str(n, str)) break;
 

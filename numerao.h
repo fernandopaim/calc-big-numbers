@@ -97,8 +97,14 @@ void numerao_subtrai(numerao *a, numerao *b);
 void numerao_libera_men(numerao *num, char *funcao, int linha);
 // Função adicional criada para liberar a memória usada por numerão
 
+void numerao_mult10(numerao *num);
+// multiplica o numerão apontado por num por 10. (num = num*10)
 
-// falta a Parte II
+void numerao_multdig(numerao *num, char dig);
+// multiplica o numerão apontado por num pelo dígito em dig (‘0’ a ‘9’) (num = num*dig)
+
+void numerao_multiplica(numerao *n1, numerao *n2);
+// multiplica n1 por n2 e coloca o resultado em n1. n2 não deve ter seu valor alterado. (n1 = n1*n2)
 
 
 #endif // _numerao_h_
