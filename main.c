@@ -45,7 +45,7 @@ int main() {
       numerao_multiplica(&acumulador, &aux);
     }
     numerao_para_str(&acumulador, str);
-    printf("\nResultado: %s\n", str);
+    printf("Resultado: %s\n", str);
   }
   printf("Ciao\n");
   // se foi feita alguma operacao, o relatorio deve mostrar 2 alocacoes

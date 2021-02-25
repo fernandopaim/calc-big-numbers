@@ -97,18 +97,18 @@ void numerao_aux_ndig(numerao *num, int ndig)
 {
   if (ndig > 0 && ndig > num->n_dig) {
     int oldSize = num->n_dig;
-    char *digAux = num->dig;
-    numerao_libera_men(num, "numerao_aux_ndig", 101);
+    char *digAux;
 
-    num->dig = (char *) m_aloca(ndig * sizeof(char));
-    for(int i = 0; i < num->n_dig; i++) {
-      num->dig[i] = digAux[i];
-    }
+    digAux = (char *) m_aloca(ndig * sizeof(char));
+    for(int i = 0; i < num->n_dig; i++)
+      digAux[i] = num->dig[i];
 
+    for(int i = oldSize; i < ndig; i++)
+      digAux[i] = '0';
+
+    m_libera_mesmo(num->dig, "numerao_aux_ndig", 111);
     num->n_dig = ndig;
-    for(int i = oldSize; i < num->n_dig; i++) {
-      num->dig[i] = '0';
-    }
+    num->dig = digAux;
   }
 }
 
@@ -125,12 +125,12 @@ int numerao_compara(numerao *n, numerao *m)
   numerao_canon(&m_aux);
 
   if (n_aux.n_dig > m_aux.n_dig || (n_aux.sinal == '+' && m_aux.sinal == '-')) {
-    numerao_libera_men(&n_aux, "numerao_compara", 128);
-    numerao_libera_men(&m_aux, "numerao_compara", 129);
+    numerao_libera_men(&n_aux, "numerao_compara", 130);
+    numerao_libera_men(&m_aux, "numerao_compara", 131);
     return 1;
   } else if (n_aux.n_dig < m_aux.n_dig || (n_aux.sinal == '-' && m_aux.sinal == '+')) {
-    numerao_libera_men(&n_aux, "numerao_compara", 132);
-    numerao_libera_men(&m_aux, "numerao_compara", 133);
+    numerao_libera_men(&n_aux, "numerao_compara", 134);
+    numerao_libera_men(&m_aux, "numerao_compara", 135);
     return -1;
   } else {
     int flagEqual = 0;
@@ -145,8 +145,8 @@ int numerao_compara(numerao *n, numerao *m)
       }
     }
 
-    numerao_libera_men(&n_aux, "numerao_compara", 148);
-    numerao_libera_men(&m_aux, "numerao_compara", 149);
+    numerao_libera_men(&n_aux, "numerao_compara", 150);
+    numerao_libera_men(&m_aux, "numerao_compara", 151);
 
     if (flagEqual) return flagEqual;
   }
@@ -188,9 +188,8 @@ void numerao_aux_subtrai(numerao *num, numerao *num2)
   for (int i = 0; i < num->n_dig; i++) {
     sub = char2int(num->dig[i]) - char2int(num2->dig[i]) - auxSub;
     if (sub < 0) {
-      auxSub = -1;
-      printf("%d", auxSub);
-      sub = abs(sub);
+      auxSub = 1;
+      sub = 10 - abs(sub);
     } else {
       auxSub = 0;
     }
@@ -205,6 +204,12 @@ void numerao_troca_sinal(numerao *num) {
 
 void numerao_soma(numerao *a, numerao *b)
 {
+  if (b->sinal == '-') {
+    b->sinal = '+';
+    numerao_subtrai(a, b);
+    return;
+  }
+
   int maxDig = a->n_dig;
   if (b->n_dig > a->n_dig)
     maxDig = b->n_dig;
@@ -216,11 +221,17 @@ void numerao_soma(numerao *a, numerao *b)
 
   numerao_aux_soma(a, &b_aux);
   numerao_canon(a);
-  numerao_libera_men(&b_aux, "numerao_soma", 214);
+  numerao_libera_men(&b_aux, "numerao_soma", 221);
 }
 
 void numerao_subtrai(numerao *a, numerao *b)
 {
+  if (b->sinal == '-') {
+    b->sinal = '+';
+    numerao_soma(a, b);
+    return;
+  }
+
   int maxDig = a->n_dig;
   if (b->n_dig > a->n_dig)
     maxDig = b->n_dig;
@@ -241,7 +252,7 @@ void numerao_subtrai(numerao *a, numerao *b)
     numerao_aux_subtrai(a, &b_aux);
   }
 
-  numerao_libera_men(&b_aux, "numerao_subtrai", 244);
+  numerao_libera_men(&b_aux, "numerao_subtrai", 246);
   numerao_canon(a);
 }
 
@@ -291,4 +302,6 @@ void numerao_multiplica(numerao *n1, numerao *n2) {
   }
 
   numerao_copia(&sum, n1);
+  numerao_libera_men(&sum, "numerao_multiplica", 296);
+  numerao_libera_men(&mult_aux, "numerao_multiplica", 297);
 }
