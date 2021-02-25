@@ -198,6 +198,11 @@ void numerao_aux_subtrai(numerao *num, numerao *num2)
   }
 }
 
+void numerao_troca_sinal(numerao *num) {
+  if (num->sinal == '+') num->sinal = '-';
+  else num->sinal = '+';
+}
+
 void numerao_soma(numerao *a, numerao *b)
 {
   int maxDig = a->n_dig;
@@ -230,25 +235,60 @@ void numerao_subtrai(numerao *a, numerao *b)
     numerao_copia(&b_aux, a);
 
     if (a->sinal == b->sinal) {
-      if (a->sinal == '+') a->sinal = '-';
-      else a->sinal = '+';
+      numerao_troca_sinal(a);
     }
   } else {
     numerao_aux_subtrai(a, &b_aux);
   }
 
-  numerao_libera_men(&b_aux, "numerao_subtrai", 240);
+  numerao_libera_men(&b_aux, "numerao_subtrai", 244);
   numerao_canon(a);
 }
 
 void numerao_mult10(numerao *num) {
-
+  char *auxDig = (char *) m_aloca(num->n_dig+1 * sizeof(char));
+  auxDig[0] = '0';
+  for(int i = 1; i <= num->n_dig; i++) {
+    auxDig[i] = num->dig[i-1];
+  }
+  num->n_dig++;
+  m_libera_mesmo(num->dig, "numerao_mult10", 255);
+  num->dig = auxDig;
 }
 
 void numerao_multdig(numerao *num, char dig) {
+  int mult = 0, auxMult = 0;
 
+  numerao_aux_ndig(num, num->n_dig+1);
+
+  for (int i = 0; i < num->n_dig; i++) {
+    mult = (char2int(num->dig[i]) * char2int(dig)) + auxMult;
+    if (mult > 9) {
+      auxMult = mult / 10;
+      mult = mult % 10;
+    } else {
+      auxMult = 0;
+    }
+    num->dig[i] = int2char(mult);
+  }
+
+  numerao_canon(num);
 }
 
 void numerao_multiplica(numerao *n1, numerao *n2) {
+  numerao sum, mult_aux;
+  numerao_de_str(&sum, "0");
 
+  for (int i = 0; i < n2->n_dig; i++) {
+    numerao_copia(n1, &mult_aux);
+    numerao_multdig(&mult_aux, n2->dig[i]);
+    for (int j = 0; j < i; j++) numerao_mult10(&mult_aux);
+    numerao_soma(&sum, &mult_aux);
+  }
+
+  if (n1->sinal != n2->sinal) {
+    numerao_troca_sinal(&sum);
+  }
+
+  numerao_copia(&sum, n1);
 }

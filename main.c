@@ -4,29 +4,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void le_numerao(numerao *n) {
+void le_numerao(numerao *n, int i) {
   char str[1000];
-  printf("Digite um número: ");
+  printf("Digite o %dº número: ", i);
   while (true) {
     scanf("%s", str);
     if (!num_ok(str)) {
       printf("Número não reconhecido, tente novamente: ");
       continue;
     }
-
-    // numerao_de_str(n, str);
-    // printf("\nNúmero n");
-    // printBigNumber(n);
-    // numerao aux;
-    // numerao_de_str(&aux, "1230");
-    // numerao_aux_ndig(&aux, n->n_dig);
-    // printf("\nNúmero m");
-    // printBigNumber(&aux);
-    // printf("->%d\n", numerao_compara(n, &aux));
-    // numerao_subtrai(n, &aux);
-    // printf("\nResultado operacao");
-    // printBigNumber(n);
-
     if (numerao_de_str(n, str)) break;
 
     printf("Não foi possível converter o número, tente novamente!");
@@ -39,24 +25,27 @@ int main() {
 
   printf("Somador de grandes números\n");
 
-  le_numerao(&acumulador);
   for (;;) {
+    le_numerao(&acumulador, 1);
+
     char op;
     do {
-      printf("qual operação (+, - ou f)? ");
+      printf("qual operação (+, -, * ou f)? ");
       scanf(" %c", &op);
-    } while (op != '+' && op != '-' && op != 'f');
+    } while (op != '+' && op != '-' && op != '*' && op != 'f');
 
     if (op == 'f') break;
 
-    le_numerao(&aux);
+    le_numerao(&aux, 2);
     if (op == '+') {
       numerao_soma(&acumulador, &aux);
-    } else {
+    } else if (op == '-') {
       numerao_subtrai(&acumulador, &aux);
+    } else if (op == '*') {
+      numerao_multiplica(&acumulador, &aux);
     }
     numerao_para_str(&acumulador, str);
-    printf("Resultado: %s\n", str);
+    printf("\nResultado: %s\n", str);
   }
   printf("Ciao\n");
   // se foi feita alguma operacao, o relatorio deve mostrar 2 alocacoes

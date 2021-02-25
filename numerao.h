@@ -94,9 +94,6 @@ void numerao_soma(numerao *a, numerao *b);
 void numerao_subtrai(numerao *a, numerao *b);
 // como a função anterior, mas calcula `a=a-b`.
 
-void numerao_libera_men(numerao *num, char *funcao, int linha);
-// Função adicional criada para liberar a memória usada por numerão
-
 void numerao_mult10(numerao *num);
 // multiplica o numerão apontado por num por 10. (num = num*10)
 
@@ -106,5 +103,14 @@ void numerao_multdig(numerao *num, char dig);
 void numerao_multiplica(numerao *n1, numerao *n2);
 // multiplica n1 por n2 e coloca o resultado em n1. n2 não deve ter seu valor alterado. (n1 = n1*n2)
 
+// ************************************
+// **** Funções adicionais criadas ****
+// ************************************
+
+void numerao_libera_men(numerao *num, char *funcao, int linha);
+// liberar a memória usada por numerão
+
+void numerao_troca_sinal(numerao *num);
+// troca o sinal do numerão
 
 #endif // _numerao_h_
