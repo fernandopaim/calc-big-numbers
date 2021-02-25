@@ -124,11 +124,11 @@ int numerao_compara(numerao *n, numerao *m)
   numerao_canon(&n_aux);
   numerao_canon(&m_aux);
 
-  if (n_aux.n_dig > m_aux.n_dig) {
+  if (n_aux.n_dig > m_aux.n_dig || (n_aux.sinal == '+' && m_aux.sinal == '-')) {
     numerao_libera_men(&n_aux, "numerao_compara", 128);
     numerao_libera_men(&m_aux, "numerao_compara", 129);
     return 1;
-  } else if (n_aux.n_dig < m_aux.n_dig) {
+  } else if (n_aux.n_dig < m_aux.n_dig || (n_aux.sinal == '-' && m_aux.sinal == '+')) {
     numerao_libera_men(&n_aux, "numerao_compara", 132);
     numerao_libera_men(&m_aux, "numerao_compara", 133);
     return -1;
@@ -200,12 +200,31 @@ void numerao_aux_subtrai(numerao *num, numerao *num2)
 
 void numerao_soma(numerao *a, numerao *b)
 {
-  // ...
+  numerao_aux_ndig(a, a->n_dig+2);
+  numerao b_aux;
+  numerao_copia(b, &b_aux);
+  numerao_aux_ndig(&b_aux, b->n_dig+2);
+
+  numerao_aux_soma(a, &b_aux);
+  numerao_canon(a);
+  numerao_libera_men(&b_aux, "numerao_soma", 210);
 }
 
 void numerao_subtrai(numerao *a, numerao *b)
 {
-  // ...
+  if (numerao_compara(a, b) == -1) {
+    numerao b_aux;
+    numerao_copia(b, &b_aux);
+    numerao_aux_subtrai(&b_aux, a);
+    numerao_copia(&b_aux, a);
+
+    if (a->sinal == b->sinal) {
+      if (a->sinal == '+') a->sinal = '-';
+      else a->sinal = '+';
+    }
+  } else {
+    numerao_aux_subtrai(a, b);
+  }
 }
 
 

@@ -23,8 +23,8 @@ void le_numerao(numerao *n) {
     printf("\nNúmero m");
     printBigNumber(&aux);
     printf("->%d\n", numerao_compara(n, &aux));
-    numerao_aux_subtrai(n, &aux);
-    printf("\nResultado soma");
+    numerao_subtrai(n, &aux);
+    printf("\nResultado operacao");
     printBigNumber(n);
 
     if (numerao_de_str(n, str)) break;
