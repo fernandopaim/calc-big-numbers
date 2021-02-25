@@ -38,6 +38,16 @@ int char2int(char c) {
   return i;
 }
 
+/**
+ * OBS: Not work with negative numbers
+ */
+char int2char(int n) {
+  if(n > 0 && n < 9)
+    return n + '0';
+
+  return abs(n) + '0';
+}
+
 void printBigNumber(numerao *num) {
   printf("\nNúmero de dígitos: %d\n", num->n_dig);
   printf("Sinal: %c\n", num->sinal);

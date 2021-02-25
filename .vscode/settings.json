@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "numerao.h": "c"
+    "numerao.h": "c",
+    "ratio": "c"
   }
 }

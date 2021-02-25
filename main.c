@@ -1,5 +1,6 @@
 #include "numerao.h"
 #include "mem.h"
+#include "util.h" // @TODO: remover depois dos testes
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -12,6 +13,20 @@ void le_numerao(numerao *n) {
       printf("Número não reconhecido, tente novamente: ");
       continue;
     }
+
+    numerao_de_str(n, str);
+    printf("\nNúmero n");
+    printBigNumber(n);
+    numerao aux;
+    numerao_de_str(&aux, "1230");
+    numerao_aux_ndig(&aux, n->n_dig);
+    printf("\nNúmero m");
+    printBigNumber(&aux);
+    printf("->%d\n", numerao_compara(n, &aux));
+    numerao_aux_subtrai(n, &aux);
+    printf("\nResultado soma");
+    printBigNumber(n);
+
     if (numerao_de_str(n, str)) break;
 
     printf("Não foi possível converter o número, tente novamente!");

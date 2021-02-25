@@ -63,11 +63,14 @@ void *m_aloca_mesmo(int nbytes, char *funcao, int linha)
 
 void m_libera_mesmo(void *ptr, char *funcao, int linha)
 {
-  m_verif(ptr);
+  bool ret =  m_verif(ptr);
+  if(!ret) printf("tentativa de liberacao (na funcao %s, linha %d)\n", funcao, linha);
   aloc_t *reg = acha_ptr(ptr);
   if (reg != NULL) {
     libera_ptr(reg, funcao, linha);
     // free(ptr);  // descomenta esta linha para liberar de verdade a memoria
+    // Não pode ser descomentado pois existe um bug no caso de reuso de região
+    // de memória
   } else {
     printf("tentativa de liberar ponteiro não alocado\n");
     printf("funcao %s, linha %d\n", funcao, linha);
@@ -98,7 +101,7 @@ bool m_verif(void *ptr)
 // chame esta funcao para iimprimir um relatorio resumido de alocacoes
 void m_relat(void)
 {
-  printf("Total de alocações: %d  total de liberações: %d\n", 
+  printf("Total de alocações: %d  total de liberações: %d\n",
          n_aloc, n_libera);
 }
 
