@@ -1,6 +1,5 @@
 #include "numerao.h"
 #include "mem.h"
-#include "util.h" // @TODO: remover depois dos testes
 #include <stdio.h>
 #include <stdbool.h>
 

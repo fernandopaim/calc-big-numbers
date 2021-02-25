@@ -6,7 +6,7 @@
 #include "numerao.h"
 #include "mem.h"
 #include "util.h"
-#include <stdio.h> // @TODO: remover depois dos testes
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -106,14 +106,14 @@ void numerao_aux_ndig(numerao *num, int ndig)
     for(int i = oldSize; i < ndig; i++)
       digAux[i] = '0';
 
-    m_libera_mesmo(num->dig, "numerao_aux_ndig", 111);
+    m_libera(num->dig);
     num->n_dig = ndig;
     num->dig = digAux;
   }
 }
 
 void numerao_libera_men(numerao *num, char *funcao, int linha) {
-  m_libera_mesmo(num->dig, funcao, linha);
+  m_libera(num->dig);
 }
 
 int numerao_compara(numerao *n, numerao *m)
@@ -125,12 +125,12 @@ int numerao_compara(numerao *n, numerao *m)
   numerao_canon(&m_aux);
 
   if (n_aux.n_dig > m_aux.n_dig || (n_aux.sinal == '+' && m_aux.sinal == '-')) {
-    numerao_libera_men(&n_aux, "numerao_compara", 130);
-    numerao_libera_men(&m_aux, "numerao_compara", 131);
+    numerao_libera_men(&n_aux, "numerao_compara", 128);
+    numerao_libera_men(&m_aux, "numerao_compara", 129);
     return 1;
   } else if (n_aux.n_dig < m_aux.n_dig || (n_aux.sinal == '-' && m_aux.sinal == '+')) {
-    numerao_libera_men(&n_aux, "numerao_compara", 134);
-    numerao_libera_men(&m_aux, "numerao_compara", 135);
+    numerao_libera_men(&n_aux, "numerao_compara", 132);
+    numerao_libera_men(&m_aux, "numerao_compara", 133);
     return -1;
   } else {
     int flagEqual = 0;
@@ -145,8 +145,8 @@ int numerao_compara(numerao *n, numerao *m)
       }
     }
 
-    numerao_libera_men(&n_aux, "numerao_compara", 150);
-    numerao_libera_men(&m_aux, "numerao_compara", 151);
+    numerao_libera_men(&n_aux, "numerao_compara", 148);
+    numerao_libera_men(&m_aux, "numerao_compara", 149);
 
     if (flagEqual) return flagEqual;
   }
@@ -221,7 +221,7 @@ void numerao_soma(numerao *a, numerao *b)
 
   numerao_aux_soma(a, &b_aux);
   numerao_canon(a);
-  numerao_libera_men(&b_aux, "numerao_soma", 221);
+  numerao_libera_men(&b_aux, "numerao_soma", 224);
 }
 
 void numerao_subtrai(numerao *a, numerao *b)
@@ -252,7 +252,7 @@ void numerao_subtrai(numerao *a, numerao *b)
     numerao_aux_subtrai(a, &b_aux);
   }
 
-  numerao_libera_men(&b_aux, "numerao_subtrai", 246);
+  numerao_libera_men(&b_aux, "numerao_subtrai", 255);
   numerao_canon(a);
 }
 
@@ -263,7 +263,7 @@ void numerao_mult10(numerao *num) {
     auxDig[i] = num->dig[i-1];
   }
   num->n_dig++;
-  m_libera_mesmo(num->dig, "numerao_mult10", 255);
+  m_libera(num->dig);
   num->dig = auxDig;
 }
 
@@ -302,6 +302,6 @@ void numerao_multiplica(numerao *n1, numerao *n2) {
   }
 
   numerao_copia(&sum, n1);
-  numerao_libera_men(&sum, "numerao_multiplica", 296);
-  numerao_libera_men(&mult_aux, "numerao_multiplica", 297);
+  numerao_libera_men(&sum, "numerao_multiplica", 305);
+  numerao_libera_men(&mult_aux, "numerao_multiplica", 306);
 }
